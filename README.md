@@ -1,2 +1,5 @@
 # HAIS-A54
-SINF Project
+
+Automação de divisões de casas
+Projeto no ambito da UC. de Sinf (Sistemas de Informação)
+  
