@@ -3,8 +3,8 @@
 /*****************************************************************/
 typedef struct
 {
-	int ID;
-	int temperatura;
-    int humidade;
-    int luminosidade;
+	float ID;
+	float temperatura;
+    float humidade;
+   float luminosidade;
 } Mote;
