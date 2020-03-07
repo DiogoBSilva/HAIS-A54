@@ -7,25 +7,69 @@
 #include <stdio.h>
 #include "Mote.h"
 #include <math.h>
+#include "Message.h"
+#include "inclu.h"
+void ReadMotesMessage(char *message);
 /**
  * Le as mensagens das motes e guarda na variavel mesage
  * 
- * Message - apontador para apontador, guarda as mensagens de todas as motes
- * n - Numero de motes
+ * Message - apontador guarda a mensagem da mote
+ *
  * */
-void ReadMotes(char *message ,int n){
-    char trash[80];
-    fgets(trash,80,stdin);
-    for(int i=0;i<n;i++)
-        fgets(message,80,stdin);
 
-}
 int hex2dec(char p1,char p2,char p3,char p4);
+/**
+*Convete 4 valores hexadecimais em decimal
+*
+*p1 - Char, primeiro hexadecimal
+*p2 - Char, segundo hexadecimal
+*p3 - Char, terceio hexadecimal
+*p4 - Char, quarto hexadecimal
+*
+*/
+
+void DataConverter(char *message,Mote *mote);
+/**
+*Converte os valores em hexadecimal para os valores fisicos
+*
+*message - mensagem da mote
+*mote - struct contendo os valores da mote
+*/
+void ReadMotes(char *message,Mote *mote);
+/**
+*Le as motes e converte para os seu valores fisicos 
+*
+*message - mensagem da mote
+*mote - struct contendo os valores da mote
+*/
+void ReadMotesMessage(char *message){
+        fgets(message,255,stdin);
+	printf("Mensage lida %s\n",message);
+}
+
 void DataConverter(char *message,Mote *mote){
-    mote->ID=hex2dec(message[15],message[16],message[18],message[19]);
-    mote->temperatura=hex2dec(message[48],message[49],message[51],message[52])*0.01-39.6;
-    mote->humidade=hex2dec(message[54],message[55],message[57],message[58])*0.0367-2.0468-1.5955*pow(10,-6)*pow(hex2dec(message[54],message[55],message[57],message[58]),2);
-    mote->luminosidade=0.625*pow(10,6)*(hex2dec(message[36],message[37],message[39],message[40])/4096)*(1.5/100000)*1000;
+	//ID
+	mote->ID=hex2dec(message[15],message[16],message[18],message[19]);
+	//printf("Mote id= %d\n",mote->ID);
+	
+	//Temperatura
+	int dec=hex2dec(message[48],message[49],message[51],message[52]);
+	mote->temperatura= ((float)dec)*0.01-39.6;
+	printf("Temperatura real = %f\n",mote->temperatura);
+	
+	//humidade
+	dec=hex2dec(message[54],message[55],message[57],message[58]);
+    	float humidade= -2.0468+0.0367*dec-1.5955*pow(10,-6)*pow(dec,2);
+	//printf("Humidade sem compesar = %f\n",humidade);
+	
+	mote->humidade=(mote->temperatura-25)*(0.01+0.00008*dec)+humidade;
+	//printf("Humidade real = %f\n",mote->humidade);
+
+	//Luz
+	dec=hex2dec(message[36],message[37],message[39],message[40]);
+	//printf("dec = %d\n",dec);
+	mote->luminosidade=0.625*pow(10,6)*((dec*1.0)/4096.0)*(1.5/100000)*1000;
+	//printf("Luz real %f\n",mote->luminosidade);
 }
 
 int hex2dec(char p1,char p2,char p3,char p4){
@@ -34,102 +78,9 @@ int hex2dec(char p1,char p2,char p3,char p4){
     aux2[0]=p1;aux2[1]=p2;aux2[2]=p3;aux2[3]=p4;
     return (int)strtol(aux2,&ptr,16);
 }
-
-int main(){
-	char message[80];
-	Mote mote;
-	ReadMotes(message ,1);
-	DataConverter(message,&mote);
-	printf("Temperatura %f\n",mote.temperatura);
-char buf[200];
- 	FILE *Ficheiro=fopen("MsgCreatorConf.txt","r");
- while(fgets(buf,200,Ficheiro)!=NULL){
-        printf("%s %d\n",buf,(int)strlen(buf));
-    }
-    fclose(Ficheiro);
-	char *token;
-token = strtok(buf," ");
-while(token!=NULL){
-switch (token[1]){
-	case 'n':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%d\n",atoi(token));
-		break;	
-	case 'l':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%d\n",atoi(token));
-		break;	
-	case 'c':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%d\n",atoi(token));
-		break;	
-	case 'f':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%d\n",atoi(token));
-		break;
-	case 'i':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%d\n",atoi(token));
-		break;	
-	case 's':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%s\n",token);
-
-		/*char aux[80];
-		strcpy(aux,token);
-		aux[0]='0';
-		aux[strlen(aux)-1]='\0';
-		char *aux2;
-		aux2 = strtok(aux,",");
-		printf("%d\n",atoi(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%d\n",atoi(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%d\n",atoi(aux2));*/
-		break;		
-case 'd':
-		printf("%s\n",token);
-	 	token = strtok(NULL," ");
-		printf("%s\n",token);
-		//char aux[80];
-		//strcpy(aux,token+2);
-		//aux[strlen(aux)-2]='\0';
-		//printf("%s\n",aux);
-		/*char *aux2;
-		aux2 = strtok(aux,",");
-		printf("%s\n",aux2);
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%s\n",aux2);
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-aux2 = strtok(NULL,",");
-		printf("%s\n",aux2);
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		aux2 = strtok(NULL,",");
-		printf("%f\n",atof(aux2));
-		*/
-		break;			
+void ReadMotes(char *message,Mote *mote){
+	ReadMotesMessage(message);
+	DataConverter(message,mote);
 }
 
-token=strtok(NULL," ");
-}
-}
+
