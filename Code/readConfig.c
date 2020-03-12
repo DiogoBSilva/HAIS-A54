@@ -58,7 +58,7 @@ int ReadMessageConfig(char *nomeFicheiro,MessageT *mes){
 	char buf[200];
 	
 	while(fgets(buf,200,Ficheiro)!=NULL){
-        	printf("Mensagem a tratar:\n%s\n",buf);
+        	//printf("Mensagem a tratar:\n%s\n",buf);
     		
 		DecodeMessage(buf,mes);
 

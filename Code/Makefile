@@ -10,7 +10,7 @@ readConfig.o: readConfig.c
 	gcc -o readConfig.o -c readConfig.c -W -Wall
 
 LerSensor.o: LerSensor.c
-	gcc -o LerSensor.o -c LerSensor.c -W -Wall
+	gcc -o LerSensor.o -c LerSensor.c -W -Wall 
 
 hais.o: hais.c
 	gcc -o hais.o -c hais.c -W -Wall

@@ -44,7 +44,7 @@ void ReadMotes(char *message,Mote *mote);
 */
 void ReadMotesMessage(char *message){
         fgets(message,255,stdin);
-	printf("Mensage lida %s\n",message);
+	//printf("Mensage lida %s\n",message);
 }
 
 void DataConverter(char *message,Mote *mote){
