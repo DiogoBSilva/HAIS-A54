@@ -1,9 +1,9 @@
 #################### MakeFile ######################
 
 all: hais
-hais: readConfig.o LerSensor.o hais.o
+hais: readConfig.o LerSensor.o hais.o DevConfig.o 
 	@echo " A compilar... "
-	gcc -o hais readConfig.o LerSensor.o hais.o -lm
+	gcc -o hais readConfig.o LerSensor.o hais.o DevConfig.o -lm
 	@echo " ...Terminado "
 	
 readConfig.o: readConfig.c
@@ -14,6 +14,10 @@ LerSensor.o: LerSensor.c
 
 hais.o: hais.c
 	gcc -o hais.o -c hais.c -W -Wall
+
+DevConfig.o: LerSensor.c
+	gcc -o DevConfig.o -c DevConfig.c -W -Wall 
+
 clean:
 	rm -rf *.o
 
