@@ -105,7 +105,7 @@ int devRules(char *filename,devisao *dev,int numeroDivs){
 		printf("Nome do ficheiro foi NULL\n");
 		return -1;
 	}
-	FILE *Ficheiro=fopen("Rules.txt","r");
+	FILE *Ficheiro=fopen(filename,"r");
 	if(Ficheiro==NULL){
 		printf("Nao abriu o ficheiro\n");
 		return -1;

@@ -13,6 +13,7 @@ typedef struct{
 } vec2;
 
 typedef struct{
+	int cont;
 	vec2 m[5];
 } matrix;
 

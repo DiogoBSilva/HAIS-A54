@@ -53,16 +53,17 @@ void DataConverter(char *message,Mote *mote){
 	//printf("Mote id= %d\n",mote->ID);
 	
 	//Temperatura
-	int dec=hex2dec(message[48],message[49],message[51],message[52]);
-	mote->temperatura= ((float)dec)*0.01-39.6;
+	float dec=(float)hex2dec(message[48],message[49],message[51],message[52]);
+	float temp=(dec)*0.01-39.6;
+	mote->temperatura= (dec)*0.01-39.6;
 	//printf("Temperatura real = %f\n",mote->temperatura);
 	
 	//humidade
 	dec=hex2dec(message[54],message[55],message[57],message[58]);
-    	float humidade= -2.0468+0.0367*dec-1.5955*pow(10,-6)*pow(dec,2);
+    float humidade= 0.036700*dec-1.59550*0.0000010*dec*dec-2.04680;
 	//printf("Humidade sem compesar = %f\n",humidade);
 	
-	mote->humidade=(mote->temperatura-25)*(0.01+0.00008*dec)+humidade;
+	mote->humidade=(temp-25)*(0.01+0.00008*dec)+humidade;
 	//printf("Humidade real = %f\n",mote->humidade);
 
 	//Luz

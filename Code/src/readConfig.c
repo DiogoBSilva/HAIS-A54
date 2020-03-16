@@ -111,6 +111,7 @@ int DecodeD(char *str,MessageT *mes){
 		//printf("D[%d].s[2] = %f\n",cont,mes->d.m[cont].s[2]);
 		token = strtok(NULL,",");
 		cont++;
+		mes->d.cont=cont;
 	}
 	
 	return 1;

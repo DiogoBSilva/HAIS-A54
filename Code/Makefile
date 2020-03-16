@@ -6,20 +6,20 @@ hais: readConfig.o LerSensor.o hais.o DevConfig.o controlador.o
 	gcc -o hais readConfig.o LerSensor.o hais.o DevConfig.o controlador.o -lm
 	@echo " ...Terminado "
 	
-readConfig.o: readConfig.c
-	gcc -o readConfig.o -c readConfig.c -W -Wall
+readConfig.o: ./src/readConfig.c
+	gcc -o readConfig.o -c ./src/readConfig.c -W -Wall
 
-LerSensor.o: LerSensor.c
-	gcc -o LerSensor.o -c LerSensor.c -W -Wall 
+LerSensor.o: ./src/LerSensor.c
+	gcc -o LerSensor.o -c ./src/LerSensor.c -W -Wall 
 
-hais.o: hais.c
-	gcc -o hais.o -c hais.c -W -Wall
+hais.o: ./src/hais.c
+	gcc -o hais.o -c ./src/hais.c -W -Wall
 
-DevConfig.o: LerSensor.c
-	gcc -o DevConfig.o -c DevConfig.c -W -Wall 
+DevConfig.o: ./src/LerSensor.c
+	gcc -o DevConfig.o -c ./src/DevConfig.c -W -Wall 
 
-controlador.o: controlador.c
-	gcc -o controlador.o -c controlador.c -W -Wall
+controlador.o: ./src/controlador.c
+	gcc -o controlador.o -c ./src/controlador.c -W -Wall
 
 clean:
 	rm -rf *.o

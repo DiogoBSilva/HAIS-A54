@@ -7,7 +7,6 @@ typedef struct{
 	float temperatura;
 	float humidade;
    	float luminosidade;
-
 }Mote;
 #define MOTE
 #endif
