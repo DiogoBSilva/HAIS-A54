@@ -5,6 +5,7 @@
 typedef struct{
 	char nome[15];
 	char estado[5];
+	char estadoreal[5];
 }atuadores;
 typedef struct{
 	char nome[15];

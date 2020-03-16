@@ -50,12 +50,12 @@ void ReadMotesMessage(char *message){
 void DataConverter(char *message,Mote *mote){
 	//ID
 	mote->ID=hex2dec(message[15],message[16],message[18],message[19]);
-	printf("Mote id= %d\n",mote->ID);
+	//printf("Mote id= %d\n",mote->ID);
 	
 	//Temperatura
 	int dec=hex2dec(message[48],message[49],message[51],message[52]);
 	mote->temperatura= ((float)dec)*0.01-39.6;
-	printf("Temperatura real = %f\n",mote->temperatura);
+	//printf("Temperatura real = %f\n",mote->temperatura);
 	
 	//humidade
 	dec=hex2dec(message[54],message[55],message[57],message[58]);

@@ -26,7 +26,9 @@ void DataConverter(char *message,Mote *mote);
 void ReadMotes(char *message,Mote *mote);
 
 
-int devConfig(char *filename,devisao *dev,int *numeroDivs,Mote *mote);
+int devConfig(char *filename,devisao *dev,int *numeroDivs);
 int devRules(char *filename,devisao *dev,int numeroDivs);
+
+int controlador(devisao *dev,int numeroDivs,Mote *mote);
 #define INCLU
 #endif

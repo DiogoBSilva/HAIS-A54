@@ -13,7 +13,7 @@
 #include "Deviso.h"
 //#define debug
 
-int devConfig(char *filename,devisao *dev,int *numeroDivs,Mote *mote){
+int devConfig(char *filename,devisao *dev,int *numeroDivs){
 	if(filename==NULL){
 		printf("Nome do ficheiro foi NULL\n");
 		return -1;
@@ -48,7 +48,8 @@ int devConfig(char *filename,devisao *dev,int *numeroDivs,Mote *mote){
 		int natuadores =0;
 		while(token!=NULL){
 				strcpy(dev[contdiv].atua[natuadores].nome,token);
-				strcpy(dev[contdiv].atua[natuadores].estado,"OFF\0");		
+				strcpy(dev[contdiv].atua[natuadores].estado,"OFF\0");
+				strcpy(dev[contdiv].atua[natuadores].estadoreal,"OFF\0");		
 				token = strtok(NULL,",");
 				natuadores++;
 		}

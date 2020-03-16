@@ -11,7 +11,7 @@
 #include "Message.h"
 #include "inclu.h"
 #include "Deviso.h"
-#define debug
+//#define debug
 
 int devConfig(char *filename,devisao *dev,int *numeroDivs,Mote *mote){
 	if(filename==NULL){
