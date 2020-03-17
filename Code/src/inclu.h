@@ -20,10 +20,10 @@ int DecodeMessage(char *str,MessageT *mes);
 /**
 *LerSensor
 **/
-void ReadMotesMessage(char *message);
+void ReadMotesMessage(char *message,FILE *input);
 int hex2dec(char p1,char p2,char p3,char p4);
 void DataConverter(char *message,Mote *mote);
-void ReadMotes(char *message,Mote *mote);
+void ReadMotes(char *message,Mote *mote,FILE *input);
 
 
 int devConfig(char *filename,devisao *dev,int *numeroDivs);

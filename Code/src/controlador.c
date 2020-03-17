@@ -29,7 +29,9 @@ int controlador(devisao *dev,int numeroDivs,Mote *mote){
 			#ifdef debug
 				printf("Regra %s\n",dev[i].regras[j]);
 			#endif//debug
-			
+			char atuadoresvec[50][60];
+			int contatuadoresvec=0;
+			int flag=1;
 			while(token!=NULL){//enquanto existir regras
 				#ifdef debug
 					printf("Token %s\n",token);
@@ -105,7 +107,7 @@ int controlador(devisao *dev,int numeroDivs,Mote *mote){
 									result=0;
 							}
 							if(strcmp(tiposense,"LIGHT")==0){
-								if((mote[atoi(id)].humidade<atoi(numero))&&result)
+								if((mote[atoi(id)].luminosidade<atoi(numero))&&result)
 									result=1;
 								else
 									result=0;
@@ -125,7 +127,7 @@ int controlador(devisao *dev,int numeroDivs,Mote *mote){
 									result=0;
 							}
 							if(strcmp(tiposense,"LIGHT")==0){
-								if((mote[atoi(id)].humidade>atoi(numero))&&result)
+								if((mote[atoi(id)].luminosidade>atoi(numero))&&result)
 									result=1;
 								else
 									result=0;
@@ -133,35 +135,46 @@ int controlador(devisao *dev,int numeroDivs,Mote *mote){
 						}//if(op)
 					}//if(parteNumerica)
 					else{
-						res[contlogic]=result;
-						contlogic++;
-						for(int l=0;l<contlogic;l++){
-							#ifdef debug
-								printf("Avaliaçao logica %d \n",res[l]);
-							#endif//debug
-							if(res[l]){
-								token=strtok(sensename,":");
-								#ifdef debug
-									printf("Atuador %s \n",token);
-								#endif//debug
-								for(int k=0;k<dev[i].natuadores;k++){
-									if(strcmp(dev[i].atua[k].nome,token)==0){
-										token=strtok(NULL,":");	
-										strcpy(dev[i].atua[k].estado,token);
-										#ifdef debug
-											printf("Atuador %s estado %s\n",dev[i].atua[k].nome,dev[i].atua[k].estado);
-										#endif//debug
-										break;
-									}
-								}	
-								break;
-							}
-						}						
+						if(flag){
+							flag=0;
+							res[contlogic]=result;
+							contlogic++;
+						}
+						strcpy(atuadoresvec[contatuadoresvec],token);
+						contatuadoresvec++;						
 					}
 					
 				}//else do if (strcmp(token,"AND")==0 || strcmp(token,"OR")==0 )
 				token = strtok(NULL," ");
 			}//while(token!=NULL)
+			for(int l=0;l<contlogic;l++){
+				#ifdef debug
+					printf("Avaliaçao logica %d %d\n",res[l],contlogic);
+				#endif//debug
+				if(res[l]){
+					#ifdef debug
+						printf("Token %s \n",token );
+					#endif//debug
+					for(int k=0;k<contatuadoresvec;k++){
+						token=strtok(atuadoresvec[k],":");
+						#ifdef debug
+							printf("Atuador %s \n",token);
+						#endif//debug
+						for(int k=0;k<dev[i].natuadores;k++){
+							if(strcmp(dev[i].atua[k].nome,token)==0){
+								token=strtok(NULL,":");
+								strcpy(dev[i].atua[k].estado,token);
+								#ifdef debug
+									printf("Atuador %s estado %s\n",dev[i].atua[k].nome,dev[i].atua[k].estado);
+								#endif//debug
+								break;
+							}
+						}
+					}
+					break;	
+				}
+				
+			}
 		}//For(j)
 	}//For(i)
 	return 1;

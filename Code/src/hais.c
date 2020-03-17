@@ -77,13 +77,19 @@ int main(){
 	devisao dev[40];
 	int numeroDivs;
 	char trash[255];
+	printf("[[0,0,0],[151,150,255],[0,0,0],[255,150,255],[0,0,0],[151,150,255],[0,0,0],[255,150,255],[0,0,0],[151,150,255],[0,0,0],[255,150,255],[0,0,0],[151,150,255],[0,0,0],[255,150,255]]\n");
 	ReadMessageConfig("./Simuladores/sim2/MsgCreatorConf.txt", &mes);
 	ReadMessageConfig("./Simuladores/sim1/MsgCreatorConf.txt", &mes2);
 	devConfig("./src/DevConfig.txt",dev,&numeroDivs);
 	devRules("./src/Rules.txt",dev,numeroDivs);
-	fgets(trash,255,stdin);
+	FILE *input=fopen("/tmp/ttyV11","r");
+		if(input==NULL){
+			printf("Nao abriu o canal\n");
+			return -1;
+		}
+	fgets(trash,255,input);
 	for(int i=0;i<mes.n;i++){
-		ReadMotes(message,&motelida);
+		ReadMotes(message,&motelida,input);
 		mote[motelida.ID].temperatura=motelida.temperatura;
 		mote[motelida.ID].humidade=motelida.humidade;
 		mote[motelida.ID].luminosidade=motelida.luminosidade;
@@ -92,7 +98,7 @@ int main(){
 	while(1){
 		//printf("temperatura %f id %d\n",mote[dev[0].sens[1].id].temperatura,dev[0].sens[1].id);
 		for(int i=0;i<mes.n+1;i++){
-			ReadMotes(message,&motelida);
+			ReadMotes(message,&motelida,input);
 			mote[motelida.ID].temperatura=motelida.temperatura;
 			mote[motelida.ID].humidade=motelida.humidade;
 			mote[motelida.ID].luminosidade=motelida.luminosidade;
@@ -145,18 +151,42 @@ fclose(Ficheiro);
 
 		}
 
-
-
-
-		for(int i=0;i<numeroDivs;i++){
-			for(int j=0;j<dev[i].natuadores;j++){
-				if(strcmp(dev[i].atua[j].estado,dev[i].atua[j].estadoreal)!=0){
-					printf("atuador da devisao %s passou de %s a %s\n",dev[i].nome,dev[i].atua[j].estadoreal,dev[i].atua[j].estado);
-					strcpy(dev[i].atua[j].estadoreal,dev[i].atua[j].estado);
+		char off1[20];
+		char on1[20];
+		char bufff[400];
+		strcpy(bufff,"[");
+		strcpy(off1,"[255,0,5]");
+		strcpy(on1,"[12,255,0]");
+		for(int i=0;i<6;i++){
+			if(i<numeroDivs){
+				for(int j=0;j<6;j++){
+					if(j<dev[i].natuadores){
+						//if(strcmp(dev[i].atua[j].estado,dev[i].atua[j].estadoreal)!=0){
+						//printf("%s %s %s\n",dev[i].nome,dev[i].atua[j].nome,dev[i].atua[j].estado);
+						if(!strcmp(dev[i].atua[j].estado,"OFF")){
+						sprintf(bufff,"%s%s,",bufff,off1);
+						}
+						if(!strcmp(dev[i].atua[j].estado,"ON"))
+						sprintf(bufff,"%s%s,",bufff,on1);
+						//printf("atuador da devisao %s passou de %s a %s\n",dev[i].nome,dev[i].atua[j].estadoreal,dev[i].atua[j].estado);
+						strcpy(dev[i].atua[j].estadoreal,dev[i].atua[j].estado);
+					}
+					else{
+						sprintf(bufff,"%s[143,188,143],",bufff);
+					}		
 				}
+				sprintf(bufff,"%s[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],",bufff);
 			}
+			
+			/*else{
+				//sprintf(bufff,"%s[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],",bufff);
+			}*/
+			
 		}
-	
+		bufff[strlen(bufff)-1]=']';
+		bufff[strlen(bufff)]='\0';
+		//sprintf(bufff,"%s]\n",bufff);
+		printf("%s\n",bufff);
 	}
 
 return 0;

@@ -9,7 +9,7 @@
 #include <math.h>
 #include "Message.h"
 #include "inclu.h"
-void ReadMotesMessage(char *message);
+void ReadMotesMessage(char *message,FILE *input);
 /**
  * Le as mensagens das motes e guarda na variavel mesage
  * 
@@ -35,16 +35,20 @@ void DataConverter(char *message,Mote *mote);
 *message - mensagem da mote
 *mote - struct contendo os valores da mote
 */
-void ReadMotes(char *message,Mote *mote);
+void ReadMotes(char *message,Mote *mote,FILE *input);
 /**
 *Le as motes e converte para os seu valores fisicos 
 *
 *message - mensagem da mote
 *mote - struct contendo os valores da mote
 */
-void ReadMotesMessage(char *message){
-        fgets(message,255,stdin);
-	//printf("Mensage lida %s\n",message);
+void ReadMotesMessage(char *message,FILE *input){
+		if(input==NULL){
+			printf("Nao abriu o canal\n");
+			return;
+		}
+        fgets(message,255,input);
+		//printf("Mensage lida %s\n",message);
 }
 
 void DataConverter(char *message,Mote *mote){
@@ -79,8 +83,8 @@ int hex2dec(char p1,char p2,char p3,char p4){
     aux2[0]=p1;aux2[1]=p2;aux2[2]=p3;aux2[3]=p4;
     return (int)strtol(aux2,&ptr,16);
 }
-void ReadMotes(char *message,Mote *mote){
-	ReadMotesMessage(message);
+void ReadMotes(char *message,Mote *mote,FILE *input){
+	ReadMotesMessage(message,input);
 	DataConverter(message,mote);
 }
 
