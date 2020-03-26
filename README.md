@@ -7,5 +7,6 @@
   
   ![Product Vision](https://github.com/DiogoBSilva/HAIS-A54/blob/master/Documentation/Images/ProductVision.PNG)
   
-<b>UML - Use Case Diagram
+<b>UML - Use Case 
+  
   ![Use Case](https://github.com/DiogoBSilva/HAIS-A54/blob/master/Documentation/Images/UserCases.png)
