@@ -3,4 +3,9 @@
   <br>Projeto no ambito da UC. de Sinf (Sistemas de Informação)
 </p>
 
+<b>Product Vision
   
+  ![Product Vision](https://github.com/DiogoBSilva/HAIS-A54/blob/master/Documentation/Images/ProductVision.PNG)
+  
+<b>UML - Use Case Diagram
+  ![Use Case](https://github.com/DiogoBSilva/HAIS-A54/blob/master/Documentation/Images/UserCases.png)
