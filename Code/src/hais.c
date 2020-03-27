@@ -12,63 +12,6 @@
 #include "inclu.h"
 #include "Deviso.h"
 
-/*
-void controlador(Mote motelida){
-FILE *Ficheiro;
-
-		if(motelida.temperatura<4 && !flag){
-		
-	
-			sprintf(buf,
-"-n %d -l %d -f %d -c %d -s [%d,%d,%d] -d [['%c',%.1f,%.1f,%.1f],['%c',%.1f,%.1f,%d],['%c',%.1f,%.1f,%.0f]] -i %d",
-mes.n,
-mes.l,
-mes.f,
-mes.c,
-mes.s.sc[0],mes.s.sc[1],mes.s.sc[2],
-mes.d.m[0].c,mes.d.m[0].s[0],mes.d.m[0].s[1],mes.d.m[0].s[2],
-mes.d.m[1].c,mes.d.m[1].s[0],mes.d.m[1].s[1],1,
-mes.d.m[2].c,mes.d.m[2].s[0],mes.d.m[2].s[1],mes.d.m[2].s[2],
-mes.i);
-			Ficheiro=fopen("MsgCreatorConf.txt","w+");
-			if(Ficheiro==NULL){
-				printf("Nao abriu o ficheiro\n");
-
-			}
-			printf("Buf if = %s\n %d %d",buf,(int)sizeof(buf),(int)strlen(buf));
-			fwrite(buf,1,(int)strlen(buf),Ficheiro);
-			fclose(Ficheiro);
-flag=1;
-flag2=0;
-		}
-if(motelida.temperatura>4 && !flag2){
-flag2=1;
-flag=0;
-sprintf(buf,
-"-n %d -l %d -f %d -c %d -s [%d,%d,%d] -d [['%c',%.1f,%.1f,%.1f],['%c',%.1f,%.1f,%d],['%c',%.1f,%.1f,%.0f]] -i %d",
-mes.n,
-mes.l,
-mes.f,
-mes.c,
-mes.s.sc[0],mes.s.sc[1],mes.s.sc[2],
-mes.d.m[0].c,mes.d.m[0].s[0],mes.d.m[0].s[1],mes.d.m[0].s[2],
-mes.d.m[1].c,mes.d.m[1].s[0],mes.d.m[1].s[1],-1,
-mes.d.m[2].c,mes.d.m[2].s[0],mes.d.m[2].s[1],mes.d.m[2].s[2],
-mes.i);
-Ficheiro=fopen("MsgCreatorConf.txt","w+");
-	if(Ficheiro==NULL){
-		printf("Nao abriu o ficheiro\n");
-
-			printf("Buf else = %s %d %d\n",buf,(int)sizeof(buf),(int)strlen(buf));
-			
-			fwrite(buf,1,(int)strlen(buf),Ficheiro);
-fclose(Ficheiro);
-
-}
-
-
-}*/
-
 int main(){
 	char message[255];
 	Mote motelida,mote[500];
@@ -157,9 +100,10 @@ fclose(Ficheiro);
 		strcpy(bufff,"[");
 		strcpy(off1,"[255,0,5]");
 		strcpy(on1,"[12,255,0]");
-		for(int i=0;i<6;i++){
+		//printf("numero de devisao %d\n",numeroDivs);
+		for(int i=0;i<10/2;i++){
 			if(i<numeroDivs){
-				for(int j=0;j<6;j++){
+				for(int j=0;j<10;j++){
 					if(j<dev[i].natuadores){
 						//if(strcmp(dev[i].atua[j].estado,dev[i].atua[j].estadoreal)!=0){
 						//printf("%s %s %s\n",dev[i].nome,dev[i].atua[j].nome,dev[i].atua[j].estado);
@@ -175,12 +119,13 @@ fclose(Ficheiro);
 						sprintf(bufff,"%s[143,188,143],",bufff);
 					}		
 				}
-				sprintf(bufff,"%s[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],",bufff);
+				sprintf(bufff,"%s[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],",bufff);
 			}
 			
-			/*else{
-				//sprintf(bufff,"%s[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],",bufff);
-			}*/
+			else{
+				sprintf(bufff,"%s[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],",bufff);
+				sprintf(bufff,"%s[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],[128,128,128],",bufff);
+			}
 			
 		}
 		bufff[strlen(bufff)-1]=']';
